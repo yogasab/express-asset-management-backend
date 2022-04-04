@@ -2,18 +2,20 @@ const {
 	storeAssetRoute,
 	getAssetByUserIDRoute,
 	getCategoryAssetByUserIDRoute,
-	getAssetByIDRoute,
 	getAssetByQuerySearchRoute,
 	getAssetDetailsRoute,
 	deleteAssetRoute,
+	editAssetRoute,
 } = require("../controllers/assetController");
+const { uploadImageAssets } = require("../middlewares/uploadImages");
 
 const assetRouter = require("express").Router();
 
-assetRouter.route("/").post(storeAssetRoute);
+assetRouter.route("/").post(uploadImageAssets, storeAssetRoute);
 assetRouter.route("/user/:user_id").get(getAssetByUserIDRoute);
 assetRouter
 	.route("/:id/user/:user_id/category_asset/:category_asset_id")
+	.put(uploadImageAssets, editAssetRoute)
 	.get(getAssetDetailsRoute)
 	.delete(deleteAssetRoute);
 assetRouter

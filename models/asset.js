@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
 			tanggal_terima: DataTypes.DATE,
 			masa_asset: DataTypes.INTEGER,
 			harga_perolehan: DataTypes.INTEGER,
-			gambar_asset: DataTypes.STRING,
+			gambar_asset_belakang: DataTypes.STRING,
+			gambar_asset_depan: DataTypes.STRING,
 			category_asset_id: DataTypes.INTEGER,
 		},
 		{

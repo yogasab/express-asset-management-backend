@@ -31,7 +31,10 @@ module.exports = {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 			},
-			gambar_asset: {
+			gambar_asset_depan: {
+				type: Sequelize.STRING,
+			},
+			gambar_asset_belakang: {
 				type: Sequelize.STRING,
 			},
 			category_asset_id: {
