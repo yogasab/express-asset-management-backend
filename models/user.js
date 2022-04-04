@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const bcrypt = require("bcryptjs");
+
 module.exports = (sequelize, DataTypes) => {
 	class User extends Model {
 		/**
@@ -14,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 			});
 		}
 	}
+
 	User.init(
 		{
 			nama: DataTypes.STRING,
@@ -28,5 +31,15 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "User",
 		}
 	);
+
+	User.beforeCreate(async (user, options) => {
+		const hashedPassword = await bcrypt.hash(user.password, 10);
+		user.password = hashedPassword;
+	});
+
+	User.prototype.isPasswordMacthed = async function (enteredPassword) {
+		return await bcrypt.compare(enteredPassword, this.password);
+	};
+
 	return User;
 };

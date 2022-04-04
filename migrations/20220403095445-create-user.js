@@ -11,14 +11,24 @@ module.exports = {
 			nama: {
 				type: Sequelize.STRING,
 				allowNull: false,
+				validate: {
+					notNull: true,
+				},
 			},
 			email: {
 				type: Sequelize.STRING,
 				unique: true,
+				allowNull: false,
+				validate: {
+					notNull: true,
+				},
 			},
 			password: {
 				type: Sequelize.STRING,
 				allowNull: false,
+				validate: {
+					notNull: true,
+				},
 			},
 			avatar: {
 				type: Sequelize.STRING,
