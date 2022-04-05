@@ -64,10 +64,10 @@ module.exports = {
 				},
 				attributes: ["category_asset_id"],
 			});
-			res.status(201).json({
+			res.status(200).json({
 				status: "success",
-				message: "Asset created successfully",
-				code: 201,
+				message: "Asset fetched successfully",
+				code: 200,
 				meta: {
 					assets,
 				},

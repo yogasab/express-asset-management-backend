@@ -7,10 +7,12 @@ const {
 	deleteAssetRoute,
 	editAssetRoute,
 } = require("../controllers/assetController");
+const protectRoute = require("../middlewares/protectRoute");
 const { uploadImageAssets } = require("../middlewares/uploadImages");
 
 const assetRouter = require("express").Router();
 
+assetRouter.use(protectRoute);
 assetRouter.route("/").post(uploadImageAssets, storeAssetRoute);
 assetRouter.route("/user/:user_id").get(getAssetByUserIDRoute);
 assetRouter

@@ -1,5 +1,5 @@
 const User = require("../models").User;
-const bcrypt = require("bcryptjs");
+const generateToken = require("../lib/generateToken");
 module.exports = {
 	register: async (req, res) => {
 		const { body } = req;
@@ -14,14 +14,21 @@ module.exports = {
 					meta: {},
 				});
 			}
+
 			const user = await User.create(body);
+			const token = generateToken(user.id);
+
+			const meta = {};
+			meta.nama = user.nama;
+			meta.email = user.email;
+			meta.password = user.password;
+			meta.token = token;
+
 			res.status(201).json({
 				status: "success",
 				message: "User registered successfully",
 				code: 201,
-				meta: {
-					user,
-				},
+				meta,
 			});
 		} catch (error) {
 			res.status(500).json({ status: error.message });
@@ -38,7 +45,10 @@ module.exports = {
 			});
 		}
 		try {
-			const user = await User.findOne({ where: { email } });
+			let user = await User.findOne({
+				where: { email },
+				attributes: ["email", "password", "id"],
+			});
 			if (!user) {
 				res.status(400).json({
 					status: "error",
@@ -55,11 +65,19 @@ module.exports = {
 					meta: {},
 				});
 			}
+
+			const token = generateToken(user.id);
+
+			let meta = {};
+			meta.email = user.email;
+			meta.password = user.password;
+			meta.token = token;
+
 			res.status(200).json({
 				status: "success",
 				message: "User loggedin successfully",
 				code: 200,
-				meta: { user },
+				meta,
 			});
 		} catch (error) {
 			res.status(400).json({
