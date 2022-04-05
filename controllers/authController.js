@@ -17,6 +17,9 @@ module.exports = {
 
 			const user = await User.create(body);
 			const token = generateToken(user.id);
+			req.session.jwt = {
+				token,
+			};
 
 			const meta = {};
 			meta.nama = user.nama;
@@ -67,6 +70,9 @@ module.exports = {
 			}
 
 			const token = generateToken(user.id);
+			req.session.jwt = {
+				token,
+			};
 
 			let meta = {};
 			meta.email = user.email;
@@ -85,6 +91,22 @@ module.exports = {
 				message: error.message,
 				code: 400,
 				meta: {},
+			});
+		}
+	},
+	logout: async (req, res) => {
+		try {
+			delete req.headers.authorization;
+			res.status(200).json({
+				status: "success",
+				message: "User logged out successfully",
+				code: 200,
+			});
+		} catch (error) {
+			res.status(400).json({
+				status: "error",
+				message: error.message,
+				code: 400,
 			});
 		}
 	},
