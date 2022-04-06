@@ -265,4 +265,22 @@ module.exports = {
 			});
 		}
 	},
+	reportAssetRoute: async (req, res) => {
+		const { tanggal_awal, tanggal_akhir } = req.body;
+		try {
+			const assets = await Asset.findAll({
+				where: {
+					tanggal_terima: {
+						[Op.and]: {
+							[Op.gte]: tanggal_awal,
+							[Op.lte]: tanggal_akhir,
+						},
+					},
+				},
+			});
+			res.status(200).json({ assets });
+		} catch (error) {
+			res.status(400).json({ error });
+		}
+	},
 };

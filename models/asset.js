@@ -20,15 +20,21 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Asset.init(
 		{
-			user_id: DataTypes.INTEGER,
-			nama: DataTypes.STRING,
-			jenis_asset: DataTypes.INTEGER,
-			tanggal_terima: DataTypes.DATE,
-			masa_asset: DataTypes.INTEGER,
-			harga_perolehan: DataTypes.INTEGER,
-			gambar_asset_belakang: DataTypes.STRING,
-			gambar_asset_depan: DataTypes.STRING,
-			category_asset_id: DataTypes.INTEGER,
+			user_id: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			nama: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			jenis_asset: { type: DataTypes.INTEGER, allowNull: false },
+			tanggal_terima: { type: DataTypes.DATEONLY, allowNull: false },
+			masa_asset: { type: DataTypes.INTEGER, allowNull: false },
+			harga_perolehan: { type: DataTypes.INTEGER, allowNull: false },
+			gambar_asset_belakang: { type: DataTypes.STRING, allowNull: false },
+			gambar_asset_depan: { type: DataTypes.STRING, allowNull: false },
+			category_asset_id: { type: DataTypes.INTEGER, allowNull: false },
 		},
 		{
 			sequelize,

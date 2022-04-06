@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	CategoryAsset.init(
 		{
-			nama_kategori: DataTypes.STRING,
-			deskripsi: DataTypes.TEXT,
+			nama_kategori: { type: DataTypes.STRING, aloow: false },
+			deskripsi: { type: DataTypes.TEXT },
 		},
 		{
 			sequelize,

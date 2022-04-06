@@ -30,7 +30,7 @@ module.exports = {
 				},
 			},
 			tanggal_terima: {
-				type: Sequelize.DATE,
+				type: Sequelize.DATEONLY,
 				allowNull: false,
 				validate: {
 					notNull: { message: "Tanggal terima wajib diisi" },
