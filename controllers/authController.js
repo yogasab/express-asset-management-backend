@@ -17,9 +17,9 @@ module.exports = {
 
 			const user = await User.create(body);
 			const token = generateToken(user.id);
-			req.session.jwt = {
-				token,
-			};
+			// req.session.jwt = {
+			// 	token,
+			// };
 
 			const meta = {};
 			meta.nama = user.nama;
@@ -70,9 +70,9 @@ module.exports = {
 			}
 
 			const token = generateToken(user.id);
-			req.session.jwt = {
-				token,
-			};
+			// req.session.jwt = {
+			// 	token,
+			// };
 
 			let meta = {};
 			meta.email = user.email;

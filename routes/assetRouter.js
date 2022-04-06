@@ -8,18 +8,28 @@ const {
 	editAssetRoute,
 	reportAssetRoute,
 } = require("../controllers/assetController");
+const schemas = require("../lib/schemas");
 const protectRoute = require("../middlewares/protectRoute");
 const { uploadImageAssets } = require("../middlewares/uploadImages");
+const validateRequest = require("../middlewares/validateRequest");
 
 const assetRouter = require("express").Router();
 
 assetRouter.use(protectRoute);
-assetRouter.route("/").post(uploadImageAssets, storeAssetRoute);
-assetRouter.route("/reports").post(reportAssetRoute);
+assetRouter
+	.route("/")
+	.post(
+		uploadImageAssets,
+		validateRequest(schemas.asssetPOST),
+		storeAssetRoute
+	);
+assetRouter
+	.route("/reports")
+	.post(validateRequest(schemas.assertReportsGET), reportAssetRoute);
 assetRouter.route("/user/:user_id").get(getAssetByUserIDRoute);
 assetRouter
 	.route("/:id/user/:user_id/category_asset/:category_asset_id")
-	.put(uploadImageAssets, editAssetRoute)
+	.put(validateRequest(schemas.asssetPOST), uploadImageAssets, editAssetRoute)
 	.get(getAssetDetailsRoute)
 	.delete(deleteAssetRoute);
 assetRouter
