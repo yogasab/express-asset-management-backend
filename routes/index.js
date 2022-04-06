@@ -1,11 +1,18 @@
 var express = require("express");
+const protectRoute = require("../middlewares/protectRoute");
 var router = express.Router();
 const Asset = require("../models").Asset;
 
 /* GET home page. */
-router.get("/", async (req, res, next) => {
+router.use(protectRoute);
+router.get("/home", async (req, res, next) => {
 	try {
-		const assets = await Asset.findAll();
+		const { user } = req;
+		const assets = await Asset.findAll({
+			where: {
+				user_id: user.id,
+			},
+		});
 		res.status(201).json({
 			status: "success",
 			message: "User registered successfully",

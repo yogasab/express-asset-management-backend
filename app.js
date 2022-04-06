@@ -31,7 +31,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/api/v1", indexRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/category-assets", categoryAssetRouter);
 app.use("/api/v1/assets", assetRouter);

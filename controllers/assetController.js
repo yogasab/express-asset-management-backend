@@ -267,18 +267,31 @@ module.exports = {
 	},
 	reportAssetRoute: async (req, res) => {
 		const { tanggal_awal, tanggal_akhir } = req.body;
+		const { user } = req;
 		try {
 			const assets = await Asset.findAll({
 				where: {
-					tanggal_terima: {
-						[Op.and]: {
-							[Op.gte]: tanggal_awal,
-							[Op.lte]: tanggal_akhir,
+					[Op.and]: [
+						{ user_id: user.id },
+						{
+							tanggal_terima: {
+								[Op.and]: {
+									[Op.gte]: tanggal_awal,
+									[Op.lte]: tanggal_akhir,
+								},
+							},
 						},
-					},
+					],
 				},
+				attributes: [
+					"nama",
+					"masa_asset",
+					"gambar_asset_belakang",
+					"tanggal_terima",
+				],
 			});
-			res.status(200).json({ assets });
+			const results = Object.keys(assets).length;
+			res.status(200).json({ results, assets });
 		} catch (error) {
 			res.status(400).json({ error });
 		}

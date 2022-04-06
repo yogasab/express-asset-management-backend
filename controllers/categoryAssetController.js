@@ -22,10 +22,10 @@ module.exports = {
 			const categories = await CategoryAsset.findAll({
 				attributes: ["id", "nama_kategori", "deskripsi", "createdAt"],
 			});
-			res.status(201).json({
+			res.status(200).json({
 				status: "success",
 				message: "Category Asset fetched successfully",
-				code: 201,
+				code: 200,
 				meta: {
 					categories,
 				},
