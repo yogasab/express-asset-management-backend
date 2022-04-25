@@ -10,7 +10,7 @@ var categoryAssetRouter = require("./routes/categoryAssetRouter");
 var assetRouter = require("./routes/assetRouter");
 
 var app = express();
-var session = require("express-session");
+// var session = require("express-session");
 require("dotenv").config();
 
 // view engine setup
@@ -21,18 +21,18 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(
-	session({
-		secret: "keyboard cat",
-		resave: false,
-		saveUninitialized: true,
-		cookie: { maxAge: 60000 },
-	})
-);
+// app.use(
+// 	session({
+// 		secret: "keyboard cat",
+// 		resave: false,
+// 		saveUninitialized: true,
+// 		cookie: { maxAge: 60000 },
+// 	})
+// );
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api/v1", indexRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1", indexRouter);
 app.use("/api/v1/category-assets", categoryAssetRouter);
 app.use("/api/v1/assets", assetRouter);
 

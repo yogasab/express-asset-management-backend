@@ -4,7 +4,6 @@ const CategoryAsset = require("../models").CategoryAsset;
 const { Op } = require("sequelize");
 const fs = require("fs-extra");
 const path = require("path");
-const Item = require("../../backend-express-staycation/models/Item");
 
 module.exports = {
 	storeAssetRoute: async (req, res) => {
@@ -53,10 +52,10 @@ module.exports = {
 	},
 	// Tampilan Home 2
 	getAssetByUserIDRoute: async (req, res) => {
-		const { user_id } = req.params;
+		console.log(req.user);
 		try {
-			const assets = await Asset.findAll({
-				where: { user_id },
+			const categories = await Asset.findAll({
+				where: { user_id: req.user.id },
 				include: {
 					model: CategoryAsset,
 					as: "category",
@@ -69,7 +68,7 @@ module.exports = {
 				message: "Asset fetched successfully",
 				code: 200,
 				meta: {
-					assets,
+					categories,
 				},
 			});
 		} catch (error) {
@@ -88,7 +87,12 @@ module.exports = {
 				where: {
 					[Op.and]: [{ user_id }, { category_asset_id }],
 				},
-				attributes: ["nama", "gambar_asset"],
+				attributes: [
+					"nama",
+					"gambar_asset_belakang",
+					"gambar_asset_depan",
+					"id",
+				],
 			});
 			res.status(201).json({
 				status: "success",
@@ -119,7 +123,12 @@ module.exports = {
 						[Op.like]: `%${loweredCase}%`,
 					},
 				},
-				attributes: ["nama", "gambar_asset"],
+				attributes: [
+					"nama",
+					"gambar_asset_belakang",
+					"gambar_asset_depan",
+					"id",
+				],
 			});
 			res.status(200).json({
 				status: "success",
@@ -158,7 +167,13 @@ module.exports = {
 						attributes: ["nama_kategori"],
 					},
 				],
-				attributes: ["tanggal_terima", "masa_asset", "harga_perolehan"],
+				attributes: [
+					"tanggal_terima",
+					"masa_asset",
+					"harga_perolehan",
+					"gambar_asset_belakang",
+					"gambar_asset_depan",
+				],
 			});
 			res.status(200).json({
 				status: "success",
@@ -294,6 +309,32 @@ module.exports = {
 			res.status(200).json({ results, assets });
 		} catch (error) {
 			res.status(400).json({ error });
+		}
+	},
+	getAsetReminder: async (req, res) => {
+		const { user } = req;
+		try {
+			const assets = await Asset.findAll({
+				where: { user_id: user.id },
+				attributes: [
+					"nama",
+					"masa_asset",
+					"gambar_asset_depan",
+					"tanggal_terima",
+				],
+			});
+			res.status(200).json({
+				status: "success",
+				message: "Asset fetched successfully",
+				code: 200,
+				meta: { assets },
+			});
+		} catch (error) {
+			res.status(500).json({
+				status: "error",
+				message: error.message,
+				code: 500,
+			});
 		}
 	},
 };

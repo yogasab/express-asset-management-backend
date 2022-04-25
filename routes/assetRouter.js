@@ -7,6 +7,7 @@ const {
 	deleteAssetRoute,
 	editAssetRoute,
 	reportAssetRoute,
+	getAsetReminder,
 } = require("../controllers/assetController");
 const schemas = require("../lib/schemas");
 const protectRoute = require("../middlewares/protectRoute");
@@ -23,10 +24,11 @@ assetRouter
 		validateRequest(schemas.asssetPOST),
 		storeAssetRoute
 	);
+assetRouter.route("/reminder").get(getAsetReminder);
 assetRouter
 	.route("/reports")
 	.post(validateRequest(schemas.assertReportsGET), reportAssetRoute);
-assetRouter.route("/user/:user_id").get(getAssetByUserIDRoute);
+assetRouter.route("/category_assets").get(getAssetByUserIDRoute);
 assetRouter
 	.route("/:id/user/:user_id/category_asset/:category_asset_id")
 	.put(validateRequest(schemas.asssetPOST), uploadImageAssets, editAssetRoute)
