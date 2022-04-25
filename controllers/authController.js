@@ -17,10 +17,6 @@ module.exports = {
 
 			const user = await User.create(body);
 			const token = generateToken(user.id);
-			// req.session.jwt = {
-			// 	token,
-			// };
-
 			const meta = {};
 			meta.nama = user.nama;
 			meta.email = user.email;
@@ -107,6 +103,24 @@ module.exports = {
 				status: "error",
 				message: error.message,
 				code: 400,
+			});
+		}
+	},
+	myProfile: async (req, res) => {
+		try {
+			const { user } = req;
+			const myProfile = user;
+			res.status(200).json({
+				status: "success",
+				message: "Asset fetched successfully",
+				code: 200,
+				meta: { myProfile },
+			});
+		} catch (error) {
+			res.status(500).json({
+				status: "error",
+				message: error.message,
+				code: 500,
 			});
 		}
 	},

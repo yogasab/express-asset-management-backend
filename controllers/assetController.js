@@ -50,9 +50,7 @@ module.exports = {
 			});
 		}
 	},
-	// Tampilan Home 2
 	getAssetByUserIDRoute: async (req, res) => {
-		console.log(req.user);
 		try {
 			const categories = await Asset.findAll({
 				where: { user_id: req.user.id },
@@ -79,7 +77,6 @@ module.exports = {
 			});
 		}
 	},
-	// Tampilan Home
 	getCategoryAssetByUserIDRoute: async (req, res) => {
 		const { user_id, category_asset_id } = req.params;
 		try {
@@ -240,7 +237,6 @@ module.exports = {
 				},
 			});
 		} catch (error) {
-			console.log(error);
 			res.status(500).json({
 				status: "error",
 				message: error.message,
